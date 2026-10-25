@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BearMode</title>
+<style>
+:root{--bg:#FFF9F0;--sf:#fff;--tx:#34251F;--tx2:#6B5D54;--gr:#4C7A47;--grl:#E3F0DE;--xp:#F2B94B;--co:#E98970;--fur:#C88A5C;--bel:#FFF0D8;--ln:#34251F;--bd:#EADCCB;--r:20px;--t:200ms;--e:cubic-bezier(.3,.9,.3,1);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241A16;--sf:#33261F;--tx:#FFF3E3;--tx2:#C9B8A8;--gr:#8FC186;--grl:#2E4029;--bd:#4A382D;--ln:#FFF3E3}}
+:root[data-theme="dark"]{--bg:#241A16;--sf:#33261F;--tx:#FFF3E3;--tx2:#C9B8A8;--gr:#8FC186;--grl:#2E4029;--bd:#4A382D;--ln:#FFF3E3}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font:16px/1.4 "Baloo 2","Trebuchet MS",system-ui,sans-serif;display:flex;justify-content:center}
+#app{width:100%;max-width:430px;height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden}
+main{flex:1;overflow-y:auto;padding:16px 20px 24px;animation:in var(--t) var(--e)}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+h1{font-size:28px;line-height:1.1;margin:8px 0}h2{font-size:20px;margin:20px 0 8px}p{margin:4px 0;color:var(--tx2)}
+button{font:inherit;cursor:pointer;color:inherit;border:0;background:none}
+:focus-visible{outline:3px solid var(--xp);outline-offset:2px}
+.btn{display:block;width:100%;min-height:52px;border-radius:16px;background:var(--gr);color:#fff;font-weight:800;box-shadow:0 4px 0 #35592F;margin-top:12px;transition:transform var(--t)}
+:root[data-theme="dark"] .btn{color:#14210F;box-shadow:0 4px 0 #5C8A54}
+.btn:active{transform:translateY(3px);box-shadow:none}.btn.sec{background:var(--sf);color:var(--tx);border:2px solid var(--bd);box-shadow:0 4px 0 var(--bd)}
+.card{background:var(--sf);border:2px solid var(--bd);border-radius:var(--r);padding:16px;margin:10px 0}
+.opt{display:block;width:100%;text-align:left;min-height:56px;padding:12px 16px;margin:8px 0;background:var(--sf);border:2px solid var(--bd);border-radius:16px;font-weight:700;transition:all var(--t)}
+.opt.on{border-color:var(--gr);background:var(--grl);transform:scale(1.02)}
+.bar{height:12px;background:var(--bd);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--gr);border-radius:9px;transition:width .8s var(--e)}.bar.x i{background:var(--xp)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:99px;background:var(--sf);border:2px solid var(--bd);font-weight:800}
+.bub{background:var(--sf);border:2px solid var(--bd);border-radius:18px;padding:12px 16px;position:relative;font-weight:700;animation:pop .3s var(--e)}
+@keyframes pop{from{opacity:0;transform:scale(.9)}}
+nav{display:flex;background:var(--sf);border-top:2px solid var(--bd);padding:6px 4px}
+nav button{flex:1;min-height:52px;font-size:12px;font-weight:700;color:var(--tx2);border-radius:12px}nav button[aria-current]{color:var(--gr);background:var(--grl)}
+.bw{display:flex;justify-content:center}.bear{animation:br 3s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes br{50%{transform:scaleY(1.03)}}.s-celebrate .bear,.s-levelUp .bear{animation:bn .6s ease-in-out infinite}
+@keyframes bn{50%{transform:translateY(-14px)}}.arm{transform-origin:50% 0}.s-greet .arm.r{animation:wv .7s ease-in-out infinite}
+@keyframes wv{50%{transform:rotate(-30deg)}}.s-exercise .bear{animation:sq .8s ease-in-out infinite}
+@keyframes sq{50%{transform:scale(1.04,.93)}}.eye{animation:bl 4s infinite}@keyframes bl{96%,100%{transform:scaleY(.1)}}.eye{transform-box:fill-box;transform-origin:center}
+.rm *{animation:none!important;transition:none!important}
+.ring{position:relative;width:180px;height:180px;margin:12px auto}.ring svg{transform:rotate(-90deg)}.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:44px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.cal div{aspect-ratio:1;border-radius:10px;background:var(--bd);display:grid;place-items:center;font-size:12px;font-weight:700;transition:background .4s}.cal .f{background:var(--gr);color:#fff}.cal .t{outline:3px solid var(--xp)}
+.tag{font-size:12px;font-weight:800;padding:2px 8px;border-radius:8px}.tag.v{background:var(--grl);color:var(--gr)}.tag.u{background:#FBE3DC;color:#8A3B28}
+.cf{position:absolute;top:-10px;width:9px;height:14px;animation:fl 1.8s ease-in forwards;pointer-events:none}@keyframes fl{to{transform:translateY(110vh) rotate(540deg)}}
+.toast{position:absolute;bottom:80px;left:20px;right:20px;background:var(--tx);color:var(--bg);padding:12px 16px;border-radius:14px;font-weight:700;animation:pop .3s}
+.modal{position:absolute;inset:0;background:#0007;display:grid;place-items:center;padding:24px;z-index:5}.modal>div{background:var(--sf);border-radius:var(--r);padding:20px;width:100%}
+input,textarea{width:100%;font:inherit;padding:12px;border:2px solid var(--bd);border-radius:14px;background:var(--sf);color:var(--tx)}
+.bm{display:flex;justify-content:center}.bm svg{overflow:visible}
+.bm-fig,.bm-a,.bm-l,.bm-hd{transition:transform .3s cubic-bezier(.3,.9,.3,1)}
+.bm-eye{transform-box:fill-box;transform-origin:center;animation:bmbl 5s infinite}@keyframes bmbl{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.bm-bd{animation:bmbr 3.6s cubic-bezier(.45,.05,.55,.95) infinite}@keyframes bmbr{50%{transform:scaleY(1.03)}}
+.s-wave .bm-ar,.s-welcomeBack .bm-ar{transform:rotate(-150deg);animation:bmwv .5s ease-in-out infinite alternate}@keyframes bmwv{from{transform:rotate(-135deg)}to{transform:rotate(-168deg)}}
+.s-welcomeBack .bm-ar{animation-delay:.8s}.s-welcomeBack .bm-fig{animation:bmin .8s cubic-bezier(.2,.9,.3,1) both}@keyframes bmin{from{transform:translateX(-70px);opacity:0}}
+.s-wave .bm-hd{animation:bmtl 2.4s ease-in-out infinite alternate}@keyframes bmtl{from{transform:rotate(-3deg)}to{transform:rotate(4deg)}}
+.s-stretch .bm-al{transform:rotate(160deg);animation:bmup 3.2s ease-in-out infinite alternate}@keyframes bmup{from{transform:rotate(148deg)}to{transform:rotate(172deg)}}
+.s-stretch .bm-ar{transform:rotate(-40deg)}.s-stretch .bm-hd{transform:rotate(-8deg)}.s-stretch .bm-fig{transform:rotate(-3deg);animation:bmsw 3.2s ease-in-out infinite alternate}@keyframes bmsw{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+.s-run .bm-fig{transform:rotate(5deg);animation:bmbo .36s ease-in-out infinite alternate}@keyframes bmbo{from{transform:rotate(5deg) translateY(0)}to{transform:rotate(5deg) translateY(-7px)}}
+.s-run .bm-ll{transform:rotate(26deg);animation:bmlg .36s ease-in-out infinite alternate}.s-run .bm-lr{transform:rotate(-26deg);animation:bmlg .36s ease-in-out infinite alternate-reverse}@keyframes bmlg{from{transform:rotate(28deg)}to{transform:rotate(-28deg)}}
+.s-run .bm-al{transform:rotate(-40deg);animation:bmar .36s ease-in-out infinite alternate}.s-run .bm-ar{transform:rotate(40deg);animation:bmar .36s ease-in-out infinite alternate-reverse}@keyframes bmar{from{transform:rotate(-45deg)}to{transform:rotate(45deg)}}
+.s-run .bm-sl{animation:bmsl .36s linear infinite}@keyframes bmsl{from{transform:translateX(6px);opacity:.9}to{transform:translateX(-8px);opacity:0}}
+.s-exercise .bm-al{transform:rotate(135deg);animation:bmpr 1.4s cubic-bezier(.45,.05,.55,.95) infinite}.s-exercise .bm-ar{transform:rotate(-135deg);animation:bmpl 1.4s cubic-bezier(.45,.05,.55,.95) infinite}
+@keyframes bmpr{0%,100%{transform:rotate(100deg)}50%{transform:rotate(168deg)}}@keyframes bmpl{0%,100%{transform:rotate(-100deg)}50%{transform:rotate(-168deg)}}
+.s-exercise .bm-fig{animation:bmsq 1.4s cubic-bezier(.45,.05,.55,.95) infinite}@keyframes bmsq{50%{transform:translateY(3px) scale(1.02,.96)}}
+.s-celebrate .bm-al{transform:rotate(160deg);animation:bmch .5s ease-in-out infinite alternate}.s-celebrate .bm-ar{transform:rotate(-160deg);animation:bmch2 .5s ease-in-out infinite alternate}
+@keyframes bmch{from{transform:rotate(150deg)}to{transform:rotate(172deg)}}@keyframes bmch2{from{transform:rotate(-150deg)}to{transform:rotate(-172deg)}}
+.s-celebrate .bm-fig{animation:bmjp 1s cubic-bezier(.3,.7,.4,1) infinite}@keyframes bmjp{0%,100%{transform:translateY(0) scale(1.05,.93)}35%{transform:translateY(-26px) scale(.97,1.05)}70%{transform:translateY(0) scale(1.04,.95)}85%{transform:scale(1,1)}}
+.s-celebrate .bm-sh{animation:bmsh 1s infinite}@keyframes bmsh{35%{transform:scale(.7)}}
+.s-rest .bm-hd{transform:rotate(7deg) translateY(4px);animation:bmnd 5.5s ease-in-out infinite alternate}@keyframes bmnd{from{transform:rotate(5deg) translateY(2px)}to{transform:rotate(9deg) translateY(6px)}}.s-rest .bm-bd{animation-duration:5.5s}
+.bm-fx text{transform-box:fill-box;transform-origin:center;animation:bmz 3s ease-out infinite}.bm-fx text:nth-child(2){animation-delay:1.2s}@keyframes bmz{0%{opacity:0;transform:translateY(8px)}30%{opacity:1}100%{opacity:0;transform:translateY(-14px)}}
+.s-celebrate .bm-fx text{animation:bmsp .8s ease-in-out infinite alternate}@keyframes bmsp{from{transform:scale(.6) rotate(0)}to{transform:scale(1.15) rotate(25deg)}}
+.labg{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+:root{--fast:180ms;--med:320ms;--ease:cubic-bezier(.4,0,.2,1)}
+main{animation:none}main.in{animation:in var(--med) var(--ease)}
+.bar i{transition:width .6s var(--ease)}.btn,.opt,.chip,nav button{transition:transform var(--fast) var(--ease),background var(--fast),border-color var(--fast)}.opt:active,.chip:active,nav button:active{transform:scale(.97)}
+@keyframes bmbr{50%{transform:scaleY(1.02)}}
+@keyframes bmin{from{opacity:0;transform:scale(.94)}}.s-welcomeBack .bm-fig{animation:bmin .45s var(--ease) both}
+@keyframes bmwv{from{transform:rotate(-150deg)}to{transform:rotate(-170deg)}}.s-wave .bm-ar{animation-iteration-count:6}
+@keyframes bmsw{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+@keyframes bmsq{50%{transform:translateY(3px)}}.s-exercise .bm-al{transform:rotate(100deg)}.s-exercise .bm-ar{transform:rotate(-100deg)}
+@keyframes bmjp{0%,100%{transform:translateY(0)}35%{transform:translateY(-24px)}}.s-celebrate .bm-fig{animation-iteration-count:3}.s-celebrate .bm-al,.s-celebrate .bm-ar{animation-iteration-count:6}.s-celebrate .bm-fx text,.s-celebrate .bm-sh{animation-iteration-count:3}
+.s-walk .bm-fig{animation:bmbb .225s ease-in-out infinite alternate}@keyframes bmbb{from{transform:translateY(0)}to{transform:translateY(-4px)}}
+.s-walk .bm-ll{transform:rotate(-14deg);animation:bmwl .45s ease-in-out infinite alternate}.s-walk .bm-lr{transform:rotate(14deg);animation:bmwl .45s ease-in-out infinite alternate-reverse}@keyframes bmwl{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
+.s-walk .bm-al{transform:rotate(16deg);animation:bmwa .45s ease-in-out infinite alternate-reverse}.s-walk .bm-ar{transform:rotate(-16deg);animation:bmwa .45s ease-in-out infinite alternate}@keyframes bmwa{from{transform:rotate(-16deg)}to{transform:rotate(16deg)}}
+.s-run .bm-fig{transform:rotate(2deg);animation:bmrb .15s ease-in-out infinite alternate}@keyframes bmrb{from{transform:rotate(2deg) translateY(0)}to{transform:rotate(2deg) translateY(-5px)}}
+.s-run .bm-ll{transform:rotate(16deg);animation:bmrl .3s ease-in-out infinite alternate}.s-run .bm-lr{transform:rotate(-16deg);animation:bmrl .3s ease-in-out infinite alternate-reverse}@keyframes bmrl{from{transform:rotate(16deg) translateY(0)}to{transform:rotate(-16deg) translateY(-6px)}}
+.s-run .bm-al{transform:rotate(-30deg);animation:bmra .3s ease-in-out infinite alternate}.s-run .bm-ar{transform:rotate(30deg);animation:bmra .3s ease-in-out infinite alternate-reverse}@keyframes bmra{from{transform:rotate(-30deg)}to{transform:rotate(30deg)}}
+.s-wave .bm-ar,.s-welcomeBack .bm-ar{transform:rotate(-118deg)}@keyframes bmwv{from{transform:rotate(-118deg)}to{transform:rotate(-140deg)}}
+.s-celebrate .bm-al{transform:rotate(125deg)}.s-celebrate .bm-ar{transform:rotate(-125deg)}@keyframes bmch{from{transform:rotate(118deg)}to{transform:rotate(138deg)}}@keyframes bmch2{from{transform:rotate(-118deg)}to{transform:rotate(-138deg)}}
+.s-stretch .bm-al{transform:rotate(130deg)}@keyframes bmup{from{transform:rotate(124deg)}to{transform:rotate(144deg)}}
+@keyframes bmpr{0%,100%{transform:rotate(100deg)}50%{transform:rotate(140deg)}}@keyframes bmpl{0%,100%{transform:rotate(-100deg)}50%{transform:rotate(-140deg)}}
+.s-idle .bm-fig{animation:bmws 6s ease-in-out infinite alternate}@keyframes bmws{from{transform:rotate(-1deg)}to{transform:rotate(1deg)}}
+.s-idle .bm-hd{animation:bmhd 7s ease-in-out infinite alternate}@keyframes bmhd{from{transform:rotate(-2deg)}to{transform:rotate(3deg)}}
+.s-idle .bm-al{animation:bmia 4.5s ease-in-out infinite alternate}.s-idle .bm-ar{animation:bmia2 4.5s ease-in-out infinite alternate}@keyframes bmia{from{transform:rotate(0)}to{transform:rotate(5deg)}}@keyframes bmia2{from{transform:rotate(0)}to{transform:rotate(-5deg)}}
+:root{color-scheme:light dark;--gr:#3F6B3A;--grd:#2C4E28;--on:#fff;--err:#B3392A}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--on:#14210F;--err:#FF9C8A;--grd:#5C8A54}}
+:root[data-theme="dark"]{--on:#14210F;--err:#FF9C8A;--grd:#5C8A54}
+.btn{color:var(--on);box-shadow:0 4px 0 var(--grd)}.btn:disabled{opacity:.6!important}
+.cal .f{color:var(--on)}#err{color:var(--err)!important}
+:focus-visible{outline:3px solid var(--tx);outline-offset:2px}
+.s-rest .bm-fx text{fill:var(--tx2)}
+main{overflow-wrap:anywhere}.card.row{flex-wrap:wrap}
+.board{display:flex;flex-wrap:wrap;gap:48px;padding:32px;background:#E9E2D8;width:max-content;max-width:1700px}.frame{width:390px;height:844px;display:flex;flex-direction:column;background:var(--bg);color:var(--tx);overflow:hidden;border-radius:32px;position:relative}.fl{font:700 14px system-ui;margin-bottom:8px;color:#34251F}.chip[aria-pressed=true]{background:var(--grl);border-color:var(--gr)}
+/* ===== New palette: oat + forest green + amber ===== */
+:root{--bg:#F5EEE2;--sf:#FFFBF4;--tx:#2A1F17;--tx2:#6B5B4C;--gr:#2F6F55;--grd:#1E4F3C;--grl:#DCEBE2;--xp:#E8A33D;--co:#D96B4F;--bd:#E4D7C3;--on:#fff;--err:#B3392A;--halo:#F0C27A}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1A1512;--sf:#271F1A;--tx:#F7EEE1;--tx2:#C7B7A4;--gr:#7CCBA0;--grd:#3E8A69;--grl:#22392E;--bd:#43362B;--on:#0E2219;--err:#FF9C8A;--halo:#B9803A}}
+:root[data-theme="dark"]{--bg:#1A1512;--sf:#271F1A;--tx:#F7EEE1;--tx2:#C7B7A4;--gr:#7CCBA0;--grd:#3E8A69;--grl:#22392E;--bd:#43362B;--on:#0E2219;--err:#FF9C8A;--halo:#B9803A}
+body{background:var(--bg)}
+.btn{color:var(--on);box-shadow:0 4px 0 var(--grd)}
+.bub{border-radius:16px;box-shadow:0 2px 0 var(--bd)}
+.card{box-shadow:0 2px 0 var(--bd)}
+.bar i{background:var(--gr)}.bar.x i{background:var(--xp)}
+.cal .t{outline-color:var(--xp)}
+.board{background:#E6DCCB}
+/* mascot-matched palette: warm cream + leaf green + orange */
+:root{--bg:#FBF0E4;--sf:#FFF9F1;--bd:#EBD9C4;--gr:#2F7F36;--grd:#1F5E27;--grl:#E1F1D8;--xp:#F59E2B;--co:#F7892B}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--gr:#8FD36F;--grd:#4E9A36;--grl:#243A1F}}
+:root[data-theme="dark"]{--gr:#8FD36F;--grd:#4E9A36;--grl:#243A1F}
+.board{background:#EFE2D0}
+/* ===== natural movement: weight shift, arm swing, foot lift (small angles, pivots at shoulders/feet so the body never breaks apart) ===== */
+.s-idle .bm-fig,.s-wave .bm-fig{animation:bmSway 3.4s ease-in-out infinite alternate}
+@keyframes bmSway{from{transform:translateX(-2.5px) rotate(-1.8deg)}to{transform:translateX(2.5px) rotate(1.8deg)}}
+.s-idle .bm-hd,.s-wave .bm-hd{animation:bmHead 3.4s ease-in-out infinite alternate}
+@keyframes bmHead{from{transform:rotate(2.2deg)}to{transform:rotate(-2.2deg)}}
+.s-idle .bm-al,.s-wave .bm-al{animation:bmArmL 3.4s ease-in-out infinite alternate-reverse}
+.s-idle .bm-ar{animation:bmArmR 3.4s ease-in-out infinite alternate-reverse}
+@keyframes bmArmL{from{transform:rotate(-5deg)}to{transform:rotate(8deg)}}
+@keyframes bmArmR{from{transform:rotate(5deg)}to{transform:rotate(-8deg)}}
+.s-idle .bm-ll,.s-wave .bm-ll{animation:bmFootL 3.4s ease-in-out infinite alternate}
+.s-idle .bm-lr,.s-wave .bm-lr{animation:bmFootR 3.4s ease-in-out infinite alternate}
+@keyframes bmFootL{from{transform:translateY(-2px)}to{transform:translateY(0)}}
+@keyframes bmFootR{from{transform:translateY(0)}to{transform:translateY(-2px)}}
+/* walk: left-right zig-zag with a step bounce, feet lift one after the other */
+.s-walk .bm-fig{animation:bmWalk .9s ease-in-out infinite}
+@keyframes bmWalk{0%{transform:translate(-3px,0) rotate(-2.2deg)}25%{transform:translate(0,-3px) rotate(0)}50%{transform:translate(3px,0) rotate(2.2deg)}75%{transform:translate(0,-3px) rotate(0)}100%{transform:translate(-3px,0) rotate(-2.2deg)}}
+.s-walk .bm-ll{animation:bmStepL .9s ease-in-out infinite}.s-walk .bm-lr{animation:bmStepR .9s ease-in-out infinite}
+@keyframes bmStepL{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-5px) rotate(4deg)}}
+@keyframes bmStepR{0%,100%{transform:translateY(-5px) rotate(4deg)}50%{transform:translateY(0) rotate(-4deg)}}
+.s-walk .bm-al{animation:bmSwingA .9s ease-in-out infinite}.s-walk .bm-ar{animation:bmSwingB .9s ease-in-out infinite}
+@keyframes bmSwingA{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(14deg)}}
+@keyframes bmSwingB{0%,100%{transform:rotate(14deg)}50%{transform:rotate(-12deg)}}
+.s-walk .bm-hd{animation:bmHead .9s ease-in-out infinite alternate}
+/* ===== side-view run / walk cycle (jointed limbs) ===== */
+.s-run{--dur:.62s;--bob:-7px;--lean:11deg;--aa:62deg;--f0:-35deg;--f1:-100deg}
+.s-walk{--dur:1.1s;--bob:-3px;--lean:2deg;--aa:26deg;--f0:-6deg;--f1:-30deg}
+.s-run .bs-fig,.s-walk .bs-fig{animation:bsBob calc(var(--dur) / 2) ease-in-out infinite alternate}
+@keyframes bsBob{from{transform:rotate(var(--lean)) translateY(0)}to{transform:rotate(var(--lean)) translateY(var(--bob))}}
+.s-run .bs-hd,.s-walk .bs-hd{animation:bsHead calc(var(--dur) / 2) ease-in-out infinite alternate}
+@keyframes bsHead{from{transform:rotate(-2.5deg)}to{transform:rotate(1.5deg)}}
+.s-run .bs-an,.s-walk .bs-an{animation:bsArmA var(--dur) ease-in-out infinite}
+.s-run .bs-af,.s-walk .bs-af{animation:bsArmB var(--dur) ease-in-out infinite}
+.s-run .bs-fon,.s-walk .bs-fon{animation:bsFoA var(--dur) ease-in-out infinite}
+.s-run .bs-fof,.s-walk .bs-fof{animation:bsFoB var(--dur) ease-in-out infinite}
+@keyframes bsArmA{0%,100%{transform:rotate(var(--aa))}50%{transform:rotate(calc(var(--aa) * -1))}}
+@keyframes bsArmB{0%,100%{transform:rotate(calc(var(--aa) * -1))}50%{transform:rotate(var(--aa))}}
+@keyframes bsFoA{0%,100%{transform:rotate(var(--f0))}50%{transform:rotate(var(--f1))}}
+@keyframes bsFoB{0%,100%{transform:rotate(var(--f1))}50%{transform:rotate(var(--f0))}}
+/* run legs: foot strike, push-off, heel kick, knee drive */
+.s-run .bs-ln{animation:bsThRA .62s linear infinite}.s-run .bs-lf{animation:bsThRB .62s linear infinite}
+.s-run .bs-shn{animation:bsShRA .62s linear infinite}.s-run .bs-shf{animation:bsShRB .62s linear infinite}
+@keyframes bsThRA{0%{transform:rotate(-38deg)}40%{transform:rotate(30deg)}55%{transform:rotate(18deg)}80%{transform:rotate(-58deg)}100%{transform:rotate(-38deg)}}
+@keyframes bsShRA{0%{transform:rotate(4deg)}40%{transform:rotate(14deg)}55%{transform:rotate(82deg)}80%{transform:rotate(44deg)}100%{transform:rotate(4deg)}}
+@keyframes bsThRB{0%{transform:rotate(23deg)}5%{transform:rotate(18deg)}30%{transform:rotate(-58deg)}50%{transform:rotate(-38deg)}90%{transform:rotate(30deg)}100%{transform:rotate(23deg)}}
+@keyframes bsShRB{0%{transform:rotate(58deg)}5%{transform:rotate(82deg)}30%{transform:rotate(44deg)}50%{transform:rotate(4deg)}90%{transform:rotate(14deg)}100%{transform:rotate(58deg)}}
+/* walk legs */
+.s-walk .bs-ln{animation:bsThWA var(--dur) linear infinite}.s-walk .bs-lf{animation:bsThWB var(--dur) linear infinite}
+.s-walk .bs-shn{animation:bsShWA var(--dur) linear infinite}.s-walk .bs-shf{animation:bsShWB var(--dur) linear infinite}
+@keyframes bsThWA{0%,100%{transform:rotate(-22deg)}50%{transform:rotate(22deg)}}
+@keyframes bsThWB{0%,100%{transform:rotate(22deg)}50%{transform:rotate(-22deg)}}
+@keyframes bsShWA{0%{transform:rotate(2deg)}50%{transform:rotate(6deg)}75%{transform:rotate(38deg)}100%{transform:rotate(2deg)}}
+@keyframes bsShWB{0%{transform:rotate(6deg)}25%{transform:rotate(38deg)}50%{transform:rotate(2deg)}100%{transform:rotate(6deg)}}
+</style></head><body><div id="app"></div>
+<script>
+const $=s=>document.querySelector(s);
+const OB=[{k:'goal',q:'What do you want most?',o:['Build a consistent habit','Get stronger','Move more freely','Relieve stress']},
+{k:'time',q:'How much time feels doable?',o:['5 minutes','10 minutes','20 minutes','30 minutes']},
+{k:'lvl',q:'Where are you starting from?',o:['Beginner','Intermediate','Advanced']},
+{k:'bar',q:'What gets in your way?',o:['Busy schedule','Low motivation','Forgetting','Feeling intimidated','Restarting after a break']}];
+const MOVES=[['Arm circles','Roll your shoulders in big slow circles.'],['Wall push-ups','Hands on a wall, bend elbows, push back. Easy mode: smaller range.'],['Chair squats','Sit back toward a chair, stand up. Hold the chair if needed.']];
+const S={scr:'welcome',step:0,tab:'home',a:{},xp:40,streak:3,days:[1,1,0,1,0,0,0],today:4,hist:[{n:'Gentle stretch',x:50,d:'Yesterday'}],done:false,energy:null,joined:false,cp:2,posts:[{u:'Maya',t:'Five minutes before class beat zero minutes. Not a rule, just my experience!',k:'e'}],ex:0,sec:10,paused:false,rm:matchMedia('(prefers-reduced-motion: reduce)').matches,modal:null,toast:'',cf:false,dispXp:40,compose:false,lab:'idle',away:false,sent:false,meal:0,pub:false,inv:[]};
+const lvl=x=>Math.floor(x/100)+1,short=()=>S.energy==='low';
+const STATES=['idle','wave','stretch','run','exercise','celebrate','rest','welcomeBack','walk'];
+const BC={},PW={};let LK='';
+const MEALS=[['Oats, banana and peanut butter','5 min','Rolled oats, a banana, peanut butter, milk or a plant milk','Oats give slow-release carbs and peanut butter adds protein and fat.'],['Rice, beans and veg bowl','15 min','Cooked rice, canned beans, frozen mixed veg, a little oil and spices','Beans bring protein and fibre, and veg adds colour and vitamins.'],['Yogurt, fruit and nuts','2 min','Plain yogurt, any fruit, a small handful of nuts','A quick snack with protein and healthy fats.']];
+const back=(a,v)=>`<button data-a="${a}" data-v="${v}" style="min-height:44px;font-weight:700">← Back</button>`;
+const fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0'),dur=()=>Math.max(5,Math.round(mins()*60/(short()?2:3)/(S.fast?30:1)));
+const save=()=>{try{localStorage.setItem('bm',JSON.stringify({a:S.a,xp:S.xp,streak:S.streak,fast:S.fast}))}catch(e){}};
+const obMood=()=>{const q=OB[S.step],v=S.a[q.k];const m={'Get stronger':'exercise','Move more freely':'stretch','Relieve stress':'rest','Build a consistent habit':'walk','5 minutes':'walk','10 minutes':'walk','20 minutes':'run','30 minutes':'run','Intermediate':'walk','Advanced':'exercise','Busy schedule':'walk'};return v?(m[v]||'wave'):'wave'};
+const obMsg=()=>{const q=OB[S.step],v=S.a[q.k],m={goal:'Love it. Small moves add up.',time:'Doable. Five minutes still counts!',lvl:'Everyone starts somewhere, me too.',bar:'No guilt. We will plan around that.'};return v?m[q.k]:'Hey! Pick what feels right.'};
+function bear(st,sz=170,slot='m'){return `<div data-bear="${st}" data-sz="${sz}" data-slot="${slot}"></div>`}
+function phase(root,wb){if(wb)return;root.querySelectorAll('*').forEach(n=>{const c=getComputedStyle(n);if(c.animationName==='none'||c.animationIterationCount!=='infinite')return;const d=parseFloat(c.animationDuration)*1000;if(!d)return;n.style.animationDelay=-(performance.now()%(d*(c.animationDirection.includes('alternate')?2:1)))+'ms'})}
+function mountBears(){document.querySelectorAll('[data-bear]').forEach(p=>{const sl=p.dataset.slot,t=document.createElement('div');t.innerHTML=bearSvg(p.dataset.bear,+p.dataset.sz);const w=t.firstChild;let c=BC[sl];if(!c)c=BC[sl]={el:w};else if(c.el.className!==w.className||c.el.style.width!==w.style.width){c.el.className=w.className;c.el.style.width=w.style.width;c.el.innerHTML=w.innerHTML;if(!S.rm&&c.el.animate)c.el.animate([{opacity:.4},{opacity:1}],{duration:260,easing:'ease-out'})}p.replaceWith(c.el);phase(c.el,c.el.className.includes('welcomeBack'))})}
+function post(){const a=$('#app'),K=S.scr+S.tab,K2=K+(S.scr==='ob'?S.step:''),m=a.querySelector('main');if(m&&K2!==LK)m.classList.add('in');a.querySelectorAll('.bar i').forEach((e,i)=>{const k=K+i,t=e.style.width,f=PW[k]||'0%';PW[k]=t;if(t===f)return;e.style.transition='none';e.style.width=f;void e.offsetWidth;e.style.transition='';e.style.width=t});LK=K2}
+function sideBear(st,sz){
+/* side view, facing right: slimmer body, jointed arms (elbow) and legs (knee) for a real run / walk cycle */
+const O='#F7892B',OS='#DE6A14',FAR='#DD6F18',CR='#FFF1E0',D='#2A1815',HG='#72C24E',HD='#58A83A',
+seg=(x1,y1,x2,y2,w,col,ed)=>`${ed?`<path d="M${x1} ${y1}L${x2} ${y2}" stroke="${OS}" stroke-opacity=".28" stroke-width="${w+2.4}" stroke-linecap="round" fill="none"/>`:''}<path d="M${x1} ${y1}L${x2} ${y2}" stroke="${col}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`,
+arm=(c,col,ed)=>`<g class="bs-a bs-a${c}" style="transform-origin:106px 110px">${seg(106,110,106,134,19,col,ed)}<g class="bs-fo bs-fo${c}" style="transform-origin:106px 134px">${seg(106,134,106,152,16,col,ed)}<circle cx="106" cy="157" r="9.5" fill="${col}"/>${ed?`<circle cx="106" cy="157" r="9.5" fill="none" stroke="${OS}" stroke-opacity=".28" stroke-width="1.2"/>`:''}${[-4,1,6].map(k=>`<path d="M${106+k} 164.5v3" stroke="${D}" stroke-width="1.8" stroke-linecap="round"/>`).join('')}</g></g>`,
+leg=(c,col,ed)=>`<g class="bs-l bs-l${c}" style="transform-origin:96px 150px">${seg(96,150,96,170,23,col,ed)}<g class="bs-sh bs-sh${c}" style="transform-origin:96px 170px">${seg(96,170,96,184,20,col,ed)}<ellipse cx="104" cy="187" rx="15.5" ry="7" fill="${col}"/>${ed?`<ellipse cx="104" cy="187" rx="15.5" ry="7" fill="none" stroke="${OS}" stroke-opacity=".28" stroke-width="1.2"/>`:''}${[184,187,190].map(y=>`<path d="M118 ${y}h3" stroke="${D}" stroke-width="1.7" stroke-linecap="round"/>`).join('')}</g></g>`;
+const sl=st==='run'?`<g class="bm-sl"><path d="M30 104h-20M34 126h-26M30 148h-18" stroke="#D8C3AE" stroke-width="4" stroke-linecap="round"/></g>`:'';
+return `<div class="bm s-${st}" aria-hidden="true" style="width:${sz}px;margin:auto"><svg width="${sz}" height="${sz}" viewBox="0 0 200 200"><ellipse cx="100" cy="196" rx="58" ry="5" fill="#8A5A30" opacity=".16"/>${sl}<g class="bs-fig" style="transform-origin:100px 192px">${leg('f',FAR,0)}${arm('f',FAR,0)}<circle cx="62" cy="138" r="8" fill="${O}"/><ellipse cx="96" cy="122" rx="35" ry="46" fill="${O}"/><ellipse cx="111" cy="133" rx="14" ry="21" fill="${CR}"/>${leg('n',O,1)}${arm('n',O,1)}<g class="bs-hd" style="transform-origin:106px 84px"><circle cx="90" cy="42" r="10" fill="${O}"/><circle cx="90" cy="42" r="5" fill="#F9B77A"/><circle cx="110" cy="66" r="30" fill="${O}"/><ellipse cx="133" cy="76" rx="19" ry="13.5" fill="${CR}"/><g class="bm-eye"><circle cx="124" cy="58" r="2.8" fill="${D}"/></g><ellipse cx="148" cy="70" rx="9" ry="7.5" transform="rotate(-10 148 70)" fill="${D}"/><ellipse cx="145" cy="67" rx="3.2" ry="1.6" fill="#6B4A40" opacity=".6"/><path d="M137 82Q144 89 152 82" stroke="${D}" stroke-width="2.2" fill="none" stroke-linecap="round"/><g transform="rotate(8 106 40)"><path d="M86 44C86 22 126 22 126 44Q106 49 86 44Z" fill="${HG}"/><path d="M86 44Q106 49 126 44L125 39Q106 44 87 39Z" fill="${HD}"/><circle cx="106" cy="22" r="5.5" fill="${HG}"/></g></g></g></svg></div>`}
+function bearSvg(st,sz=170){
+const al={greet:'wave',greeting:'wave',encourage:'wave',explain:'idle',sleepy:'rest',lift:'exercise',running:'run',levelUp:'celebrate'};st=al[st]||st;if(!STATES.includes(st))st='idle';
+if(st==='run'||st==='walk')return sideBear(st,sz);
+/* flat illustration style: orange bear, cream belly + muzzle, big dark nose, green beanie */
+const O='#F7892B',OA='#FA9738',OS='#DE6A14',OL='#EC7A1D',CR='#FFF1E0',D='#2A1815',HG='#72C24E',HD='#58A83A',
+arm=(x,c,dm)=>{const s=c==='l'?1:-1,P=(o,y)=>`${x-s*o} ${y}`,d=`M${P(-16,114)}C${P(-16,104)} ${P(-8,97)} ${P(2,97)}C${P(10,97)} ${P(15,108)} ${P(16,122)}C${P(17,134)} ${P(14,140)} ${P(13,146)}C${P(17,151)} ${P(17,162)} ${P(10,167)}Q${P(0,171)} ${P(-10,167)}C${P(-17,162)} ${P(-17,151)} ${P(-13,146)}C${P(-14,140)} ${P(-16,134)} ${P(-16,122)}Z`;
+return `<g class="bm-a bm-a${c}" style="transform-origin:${x}px 112px"><g transform="rotate(${s*4} ${x} 112)"><path d="${d}" fill="${O}"/>${[-6,0,6].map(k=>`<path d="M${x+k} 157V166" stroke="${OS}" stroke-opacity=".28" stroke-width="1.2" stroke-linecap="round"/>`).join('')}${[-6,0,6].map(k=>`<path d="M${x+k} 166.5v3.5" stroke="${D}" stroke-width="2" stroke-linecap="round"/>`).join('')}${dm?`<rect x="${x-18}" y="152" width="36" height="12" rx="5" fill="#3A3A3A"/>`:''}</g></g>`},
+lg=(x,c)=>`<g class="bm-l bm-l${c}" style="transform-origin:${x}px 176px"><ellipse cx="${x}" cy="184" rx="21" ry="11.5" fill="${O}"/>${[-7,0,7].map(k=>`<path d="M${x+k} 190.5q0 3 1 4.5" stroke="${D}" stroke-width="1.8" stroke-linecap="round" fill="none"/>`).join('')}</g>`,
+st3=`stroke="${D}" stroke-width="2.4" fill="none" stroke-linecap="round"`,
+eyes=st==='rest'?`<path d="M87 58q5 4 10 0M103 58q5 4 10 0" ${st3}/>`:st==='celebrate'?`<path d="M87 60q5-5 10 0M103 60q5-5 10 0" ${st3}/>`:`<g class="bm-eye"><circle cx="92" cy="57" r="2.7" fill="${D}"/><circle cx="108" cy="57" r="2.7" fill="${D}"/></g>`,
+mouth=st==='celebrate'?`<path d="M91 91Q100 108 109 91Z" fill="#7A2E2A" stroke="${D}" stroke-width="2" stroke-linejoin="round"/>`:st==='rest'?`<path d="M95 92Q100 95 105 92" ${st3} stroke-width="2"/>`:`<path d="M93 90.5Q100 98 107 90.5" ${st3} stroke-width="2.2"/>`,
+fx=st==='rest'?`<g class="bm-fx"><text x="140" y="48" font-size="20" font-weight="800" fill="#8A6A55">z</text><text x="156" y="30" font-size="14" font-weight="800" fill="#8A6A55">z</text></g>`:st==='celebrate'?`<g class="bm-fx"><text x="22" y="40" font-size="20" fill="#F5A623">✦</text><text x="168" y="30" font-size="22" fill="#72C24E">✦</text><text x="154" y="76" font-size="14" fill="#F5A623">✦</text></g>`:st==='run'?`<g class="bm-sl"><path d="M24 120h-16M28 140h-20M24 160h-14" stroke="#D8C3AE" stroke-width="4" stroke-linecap="round"/></g>`:'',
+dm=st==='exercise';
+return `<div class="bm s-${st}" aria-hidden="true" style="width:${sz}px;margin:auto"><svg width="${sz}" height="${sz}" viewBox="0 0 200 200"><ellipse class="bm-sh" cx="100" cy="196" rx="62" ry="5" fill="#8A5A30" opacity=".16" style="transform-origin:100px 196px"/><g class="bm-fig" style="transform-origin:100px 196px"><g class="bm-bd" style="transform-origin:100px 186px"><circle cx="71" cy="46" r="10" fill="${O}"/><circle cx="129" cy="46" r="10" fill="${O}"/><circle cx="71" cy="46" r="5" fill="#F9B77A"/><circle cx="129" cy="46" r="5" fill="#F9B77A"/><path d="M100 36C126 36 139 56 145 80C151 102 155 124 153 146C152 164 149 177 143 187Q100 176 57 187C51 177 48 164 47 146C45 124 49 102 55 80C61 56 74 36 100 36Z" fill="${O}"/><ellipse cx="100" cy="143" rx="40" ry="29" fill="${CR}"/></g>${lg(77,'l')}${lg(123,'r')}<g class="bm-hd" style="transform-origin:100px 84px"><ellipse cx="100" cy="84" rx="31" ry="21" fill="${CR}"/>${eyes}<ellipse cx="100" cy="74" rx="17" ry="12" transform="rotate(-8 100 74)" fill="${D}"/><ellipse cx="94" cy="69" rx="5.5" ry="2.2" fill="#6B4A40" opacity=".6"/>${mouth}<g transform="rotate(-7 100 36)"><path d="M82 42C82 22 118 22 118 42Q100 47 82 42Z" fill="${HG}"/><path d="M82 42Q100 47 118 42L117 37Q100 42 83 37Z" fill="${HD}"/><circle cx="100" cy="24" r="5.5" fill="${HG}"/></g></g>${arm(53,'l',dm)}${arm(147,'r',dm)}</g>${fx}</svg></div>`}
+function bearOld(st,sz=170,msg){const arms=st==='celebrate'||st==='levelUp'?['M60 120 L30 70','M140 120 L170 70']:st==='lift'||st==='exercise'?['M60 125 L28 100','M140 125 L172 100']:['M62 130 L40 160','M138 130 L160 160'];
+return `<div class="bw s-${st}" aria-hidden="true">${msg?'':''}<svg class="bear" width="${sz}" height="${sz}" viewBox="0 0 200 200"><ellipse cx="100" cy="190" rx="55" ry="7" fill="#0002"/>
+<ellipse cx="100" cy="140" rx="55" ry="50" fill="#C88A5C" stroke="#34251F" stroke-width="5"/><ellipse cx="100" cy="148" rx="32" ry="32" fill="#FFF0D8"/>
+<path class="arm l" d="${arms[0]}" stroke="#34251F" stroke-width="22" stroke-linecap="round"/><path class="arm l" d="${arms[0]}" stroke="#C88A5C" stroke-width="14" stroke-linecap="round"/>
+<path class="arm r" d="${arms[1]}" stroke="#34251F" stroke-width="22" stroke-linecap="round"/><path class="arm r" d="${arms[1]}" stroke="#C88A5C" stroke-width="14" stroke-linecap="round"/>
+${st==='lift'||st==='exercise'?'<rect x="14" y="94" width="172" height="8" rx="4" fill="#555"/><rect x="12" y="80" width="12" height="36" rx="4" fill="#34251F"/><rect x="176" y="80" width="12" height="36" rx="4" fill="#34251F"/>':''}
+<circle cx="64" cy="48" r="16" fill="#C88A5C" stroke="#34251F" stroke-width="5"/><circle cx="136" cy="48" r="16" fill="#C88A5C" stroke="#34251F" stroke-width="5"/>
+<circle cx="100" cy="76" r="48" fill="#C88A5C" stroke="#34251F" stroke-width="5"/><ellipse cx="100" cy="92" rx="22" ry="17" fill="#FFF0D8"/>
+${st==='sleepy'||st==='rest'?'<path d="M72 74q8 6 16 0M112 74q8 6 16 0" stroke="#34251F" stroke-width="4" fill="none" stroke-linecap="round"/>':'<ellipse class="eye" cx="80" cy="72" rx="4.5" ry="5.5" fill="#34251F"/><ellipse class="eye" cx="120" cy="72" rx="4.5" ry="5.5" fill="#34251F"/>'}
+<ellipse cx="100" cy="86" rx="7" ry="5" fill="#34251F"/><path d="M92 95q8 8 16 0" stroke="#34251F" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="68" cy="88" r="6" fill="#E98970" opacity=".5"/><circle cx="132" cy="88" r="6" fill="#E98970" opacity=".5"/></svg></div>`}
+const bub=t=>`<div class="bub" role="status">${t}</div>`;
+const nav=()=>`<nav aria-label="Main">${[['home','Home'],['move','Move'],['prog','Progress'],['comm','Community'],['prof','Profile']].map(([k,l])=>`<button data-a="tab" data-v="${k}" ${S.tab===k?'aria-current="page"':''}>${l}</button>`).join('')}</nav>`;
+const hdr=()=>`<div class="row"><span class="chip">🔥 ${S.streak}</span><span class="chip">⚡ ${S.xp} XP</span><span class="chip">Lv ${lvl(S.xp)}</span></div>`;
+function ring(p,txt){const c=2*Math.PI*80;return `<div class="ring"><svg width="180" height="180"><circle cx="90" cy="90" r="80" fill="none" stroke="var(--bd)" stroke-width="14"/><circle cx="90" cy="90" r="80" fill="none" stroke="var(--gr)" stroke-width="14" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p)}" style="transition:stroke-dashoffset 1s linear"/></svg><b>${txt}</b></div>`}
+const mins=()=>short()?5:+(S.a.time||'10')[0]*(/^\d{2}/.test(S.a.time)?10:1)||10;
+function view(){const s=S.scr;
+if(s==='welcome')return `<main>${bear('greet',220)}${bub('Hey, ready for one little win?')}<h1>BearMode</h1><p>Small moves. Strong habits.</p><p>You don't have to be fit to start. You just have to show up.</p><button class="btn" data-a="go" data-v="intro">Let's go</button><button class="btn sec" data-a="go" data-v="login">I have an account</button></main>`;
+if(s==='intro')return `<main>${bear('explain')}<h1>Consistency beats intensity</h1><p>Five minutes still counts. Rest days never break your streak. Missed a day? No guilt, just welcome back.</p><label>Email<input id="em" type="email" autocomplete="email"></label><label>Password (min 6)<input id="pw" type="password" autocomplete="new-password"></label><p id="err" style="color:#B3392A" role="alert"></p><button class="btn" data-a="signup">Create account (simulated)</button><button class="btn sec" data-a="go" data-v="welcome">Back</button></main>`;
+if(s==='login')return `<main>${bear('idle',130)}<h1>Welcome back</h1><label>Email<input type="email"></label><button class="btn" data-a="go" data-v="ob">Log in (simulated)</button><button class="btn sec" data-a="go" data-v="reset">Reset password</button><button class="btn sec" data-a="go" data-v="welcome">Back</button></main>`;
+if(s==='ob'){const q=OB[S.step];return `<main><div class="row"><button data-a="obback" aria-label="Back" style="font-size:24px;min-width:44px;min-height:44px">←</button><div class="bar" style="flex:1" role="progressbar" aria-valuenow="${S.step+1}" aria-valuemax="${OB.length}"><i style="width:${(S.step+1)/OB.length*100}%"></i></div></div>${bear(obMood(),110)}${bub(obMsg())}<h1>${q.q}</h1><div role="radiogroup">${q.o.map(o=>`<button class="opt ${S.a[q.k]===o?'on':''}" role="radio" aria-checked="${S.a[q.k]===o}" data-a="pick" data-v="${o}">${o}</button>`).join('')}</div><button class="btn" data-a="obnext" ${S.a[q.k]?'':'disabled style="opacity:.4"'}>Continue</button></main>`}
+if(s==='plan')return `<main>${bear('exercise',150)}<h1>Your starter plan</h1><div class="card"><b>${S.a.goal}</b><p>${S.a.time} a day · ${S.a.lvl} · tackling: ${S.a.bar}</p><p>Rest days are built in. No body data needed.</p></div>${bub('Your first mission is tiny on purpose.')}<button class="btn" data-a="start">Meet my first mission</button></main>`;
+if(s==='detail')return `<main><button data-a="go" data-v="app" style="min-height:44px">← Back</button>${bear(short()?'walk':'exercise',110)}<h1>${short()?'Tiny reset':'Daily mission'}</h1><p>${short()?'5 min · Easy · low-energy pick':'~'+(mins()||10)+' min · Beginner-friendly'}</p>${MOVES.slice(0,short()?2:3).map(m=>`<div class="card"><b>${m[0]}</b><p>${m[1]}</p></div>`).join('')}<p>Feel pain or dizziness? Stop and rest. Skip or ease any move.</p><button class="btn" data-a="begin">Start workout · +50 XP</button></main>`;
+if(s==='active'){const m=MOVES[S.ex],n=short()?2:3;return `<main>${hdr()}<div class="bar" style="margin-top:12px"><i style="width:${(S.ex)/n*100}%"></i></div><h1>${m[0]}</h1><p>Move ${S.ex+1} of ${n} · ${fmt(S.dur)} each</p>${S.cheer?bub('Five minutes still counts. Let\'s go!'):''}${bear(S.cheer?'wave':S.paused?'rest':S.ex===0?'stretch':'exercise',150)}${ring(S.sec/S.dur,fmt(S.sec))}<p style="text-align:center">${S.paused?'Paused. Take your time.':m[1]}</p><button class="btn" data-a="pause">${S.paused?'Resume':'Pause'}</button><button class="btn sec" data-a="skip">Skip this move</button></main>`}
+if(s==='done')return `<main>${bear('celebrate',200)}<h1 style="text-align:center">YOU SHOWED UP!</h1><div class="card" style="text-align:center"><div style="font-size:40px;font-weight:800">+50 XP</div><p>Total: <b id="xpn">${S.dispXp}</b> XP · Level ${lvl(S.xp)}</p><div class="bar x"><i style="width:${S.xp%100}%"></i></div><p>🔥 Streak: ${S.streak} days${lvl(S.xp)>lvl(S.xp-50)?'<br><b>Level up! New accessory unlocked: scarf.</b>':''}</p></div>${bub(short()?'Tiny win, real win. Your future self says thanks.':'Your future self says thanks.')}<button class="btn" data-a="finish">Back home</button></main>`;
+if(s==='reset')return `<main>${back('go','login')}${bear(S.sent?'celebrate':'wave',130)}<h1>${S.sent?'Check your inbox':'Reset password'}</h1>${S.sent?`<p>If an account exists, a reset link is on its way. (Simulated: no email is sent in this prototype.)</p><button class="btn" data-a="go" data-v="login">Back to login</button>`:`<p>No stress, it happens. Enter your email and we will send a link.</p><label>Email<input id="re" type="email" autocomplete="email"></label><p id="rerr" style="color:var(--err)" role="alert"></p><button class="btn" data-a="reset">Send reset link</button>`}</main>`;
+if(s==='levelup'){const L=Math.max(2,lvl(S.xp));return `<main>${bear('celebrate',200)}<h1 style="text-align:center">Level ${L}!</h1><div class="card" style="text-align:center"><b>New accessory unlocked: cozy scarf</b><p>Showing up got you here. Rest days count too.</p></div>${bub('Look at us go. Small moves, strong habits.')}<button class="btn" data-a="go" data-v="app">Continue</button></main>`}
+if(s==='lead'){const you=S.cp*9+(S.done?10:0),R=[['Maya',68],['Jordan',61],['You',you],['Sam',40],['Priya',33]].sort((a,b)=>b[1]-a[1]),mx=R[0][1];return `<main>${back('tabgo','comm')}<h1>Leaderboard</h1><p>7-Day Show Up Challenge. Points reward showing up and improving, not weight or calories.</p>${R.map((r,i)=>`<div class="card"><div class="row"><b>${i+1}. ${r[0]}${r[0]==='You'?' ⭐':''}</b><b>${r[1]} pts</b></div><div class="bar"><i style="width:${Math.round(r[1]/mx*100)}%"></i></div></div>`).join('')}<div class="card row"><label for="pub">Show me on public rankings</label><input id="pub" type="checkbox" data-a="pub" ${S.pub?'checked':''} style="width:28px;height:28px"></div><p>${S.pub?'Public: other challenge members can see your first name and points.':'Private: only friends see your name. Nothing else is shared.'}</p><p>Sample data, not real users.</p></main>`}
+if(s==='friends')return `<main>${back('tabgo','comm')}<h1>Friends</h1>${[['Maya','4-day streak'],['Jordan','2-day streak'],['Sam','Back after a break 🎉']].map(f=>`<div class="card"><b>${f[0]}</b><p>${f[1]}</p></div>`).join('')}<h2>Invite a friend</h2><label>Email<input id="fe" type="email"></label><p id="ferr" style="color:var(--err)" role="alert"></p><button class="btn" data-a="invite">Send invite (simulated)</button>${S.inv.map(e=>`<div class="card"><b>${e}</b><p>Invited · pending</p></div>`).join('')}<p>Sample friends. No real accounts or emails.</p></main>`;
+if(s==='nut')return `<main>${back('tabgo','move')}${bear('idle',110)}<h1>Nutrition guide</h1><div class="card"><span class="tag v">Cited</span><p>The WHO healthy diet fact sheet suggests at least 400 g (about 5 portions) of fruit and vegetables a day. Check who.int for the full, current guidance.</p></div><h2>Easy meal ideas</h2>${MEALS.map((m,i)=>`<div class="card row"><div><span class="tag u">Idea</span><br><b>${m[0]}</b><p>${m[1]}</p></div><button class="chip" data-a="meal" data-v="${i}">Open</button></div>`).join('')}<p>Educational only, not medical or dietetic advice.</p></main>`;
+if(s==='meal'){const m=MEALS[S.meal];return `<main>${back('go','nut')}<h1>${m[0]}</h1><p>${m[1]} · beginner friendly</p><div class="card"><b>What you need</b><p>${m[2]}</p></div><div class="card"><b>Why it works</b><p>${m[3]}</p></div><span class="tag u">Idea, not verified advice</span><p>Allergies or a medical condition? Ask a doctor or registered dietitian.</p></main>`}
+return view2()}
+function view2(){const t=S.tab;let h='';
+if(t==='home'){const wk=['M','T','W','T','F','S','S'];
+h=`<main>${hdr()}${S.energy?'':''}${bear(S.away&&!S.energy?'welcomeBack':S.done?'celebrate':S.energy==='low'?'rest':S.energy==='high'?'run':S.energy==='ok'?'walk':'idle',150)}${bub(S.away&&!S.energy?'Missed a day? No guilt. Welcome back!':S.done?'Done for today. Rest is part of progress, too.':S.energy==='low'?"Busy day? Let's keep it tiny.":S.energy?"Let's do this!":'How is your energy today?')}
+${!S.done?`<div class="row" style="margin-top:12px" role="group" aria-label="Energy check-in">${['low','ok','high'].map(e=>`<button class="opt ${S.energy===e?'on':''}" style="text-align:center;margin:0" data-a="energy" data-v="${e}">${{low:'😴 Low',ok:'🙂 Okay',high:'💪 High'}[e]}</button>`).join('')}</div>`:''}
+<div class="card"><b>Today's mission</b><p>${S.done?'Completed ✓':short()?'Tiny reset · 5 min · +50 XP':'Full-body starter · '+(mins()||10)+' min · +50 XP'}</p><div class="bar"><i style="width:${S.done?100:0}%"></i></div><button class="btn" data-a="go" data-v="detail" ${S.done?'disabled style="opacity:.4"':''}>${S.done?'Done':'See mission'}</button></div>
+<div class="cal" aria-label="This week">${S.days.map((d,i)=>`<div class="${d?'f':''} ${i===S.today?'t':''}">${wk[i]}</div>`).join('')}</div></main>`}
+if(t==='move')h=`<main><h1>Move</h1>${[['Gentle stretch','5 min · Beginner'],['Bodyweight basics','10 min · Beginner'],['Recovery flow','8 min · Rest day friendly']].map(w=>`<div class="card row"><div><b>${w[0]}</b><p>${w[1]}</p></div><button class="chip" data-a="go" data-v="detail">Open</button></div>`).join('')}<h2>Learn</h2><div class="card"><span class="tag v">Cited</span><br><b>How much activity is enough?</b><p>WHO guidelines (2020) suggest adults aim for 150–300 minutes of moderate activity a week, and any movement counts.</p><p style="font-size:13px">Source: WHO Guidelines on physical activity and sedentary behaviour, 2020. Educational only, not medical advice.</p></div><div class="card row"><div><span class="tag v">Cited</span><br><b>Nutrition guide</b><p>Simple meal ideas</p></div><button class="chip" data-a="go" data-v="nut">Open</button></div></main>`;
+if(t==='prog'){const nx=100-S.xp%100;h=`<main><h1>Progress</h1><div class="card"><b>Level ${lvl(S.xp)}</b><div class="bar x"><i style="width:${S.xp%100}%"></i></div><p>${nx} XP to next level</p></div><div class="card"><b>Streak: ${S.streak} days</b><p>Rest days never break it. A streak shield protects one missed scheduled day (prototype rule).</p><div class="cal">${S.days.map((d,i)=>`<div class="${d?'f':''}">${'MTWTFSS'[i]}</div>`).join('')}</div></div><div class="card"><b>Badges</b><p>${S.streak>=3?'🏅 3-day streak ':''}${S.done?'⭐ First mission ':''}${S.joined?'🤝 Team player':''}</p></div><div class="card"><b>History</b>${S.hist.map(x=>`<p>${x.d}: ${x.n} · +${x.x} XP</p>`).join('')}</div></main>`}
+if(t==='comm')h=`<main><h1>Community</h1><div class="labg"><button class="chip" data-a="go" data-v="lead">🏆 Leaderboard</button><button class="chip" data-a="go" data-v="friends">👥 Friends</button></div><div class="card"><b>7-Day Show Up Challenge</b><p>Score rewards participation, not raw performance. Private by default.</p>${S.joined?`<div class="bar"><i style="width:${S.cp/7*100}%"></i></div><p>${S.cp}/7 days (sample data)</p>`:`<button class="btn" data-a="join">Join challenge</button>`}</div><div class="row"><h2>Feed</h2><button class="chip" data-a="compose">+ Post</button></div>${S.compose?`<div class="card"><textarea id="pt" rows="3" placeholder="Share an experience or tip"></textarea><p>It will be labeled as personal experience, not verified advice.</p><button class="btn" data-a="publish">Publish (prototype)</button></div>`:''}${S.posts.map(p=>`<div class="card"><span class="tag ${p.k==='e'?'u':'v'}">Personal experience</span><br><b>${p.u}</b><p>${p.t}</p><button class="chip" data-a="toast" data-v="Reported (simulated moderation)">Report</button></div>`).join('')}</main>`;
+if(t==='prof')h=`<main>${bear('idle',130)}<h1>Profile</h1><div class="card"><b>${S.a.goal||'Build a consistent habit'}</b><p>${S.a.time||'10 minutes'} · ${S.a.lvl||'Beginner'}</p></div><div class="card row"><label for="rm">Reduced motion</label><input id="rm" type="checkbox" data-a="rm" ${S.rm?'checked':''} style="width:28px;height:28px"></div><div class="card row"><label for="fs">Fast demo timer</label><input id="fs" type="checkbox" data-a="fs" ${S.fast?'checked':''} style="width:28px;height:28px"></div><div class="card"><b>Mascot lab</b>${bear(S.lab,170,'lab')}<p style="text-align:center">State: <b>${S.lab}</b></p><div class="labg">${STATES.map(s=>`<button class="chip" data-a="lab" data-v="${s}" aria-pressed="${S.lab===s}">${s}</button>`).join('')}</div><button class="btn sec" data-a="away">Simulate returning after a break</button><button class="btn sec" data-a="lvl">Preview level-up screen</button></div><button class="btn sec" data-a="modal">Sign out</button></main>`;
+return h+nav()}
+function render(){const a=$('#app');a.className=S.rm?'rm':'';let h=view();
+if(S.toast)h+=`<div class="toast" role="status">${S.toast}</div>`;
+if(S.modal)h+=`<div class="modal" role="dialog" aria-modal="true"><div><h2>Sign out?</h2><p>Progress is stored only in this prototype session.</p><button class="btn" data-a="signout">Sign out</button><button class="btn sec" data-a="modal0">Cancel</button></div></div>`;
+a.innerHTML=h;mountBears();post();save();if(S.cf){S.cf=false;if(!S.rm)for(let i=0;i<40;i++){const c=document.createElement('i');c.className='cf';c.onanimationend=()=>c.remove();c.style.cssText=`left:${Math.random()*100}%;background:${['#F59E2B','#F7892B','#72C24E','#2F7F36'][i%4]};animation-delay:${Math.random()*.5}s`;a.appendChild(c)}}}
+let timer;const toast=m=>{const d=document.createElement('div');d.className='toast';d.setAttribute('role','status');d.textContent=m;$('#app').appendChild(d);setTimeout(()=>d.remove(),1800)};
+function tick(){clearInterval(timer);timer=setInterval(()=>{if(S.paused||S.cheer||S.scr!=='active')return;S.sec--;if(S.sec<=0)next();else{const b=$('.ring b'),c=$('.ring circle:last-child');if(b){b.textContent=fmt(S.sec);c.setAttribute('stroke-dashoffset',502.65*(1-S.sec/S.dur))}}},1000)}
+function next(){const n=short()?2:3;S.ex++;S.sec=S.dur;if(S.ex>=n)complete();else render()}
+function complete(){clearInterval(timer);if(!S.done){S.done=true;const o=S.xp;S.xp+=50;S.streak++;S.days[S.today]=1;S.hist.unshift({n:short()?'Tiny reset':'Daily mission',x:50,d:'Today'});S.cp=S.joined?Math.min(7,S.cp+1):S.cp;S.dispXp=o;S.cf=true;S.scr='done';render();const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/(S.rm?1:900));S.dispXp=Math.round(o+50*p);const e=$('#xpn');if(e)e.textContent=S.dispXp;if(p<1)requestAnimationFrame(f)})(t0)}else{S.scr='app';render()}}
+$('#app').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,v=b.dataset.v;
+if(a==='go'){S.scr=v;if(v==='app')S.tab='home'}
+else if(a==='signup'){const em=$('#em').value,pw=$('#pw').value;if(!/^\S+@\S+\.\S+$/.test(em)){$('#err').textContent='Enter a valid email like you@school.edu.';return}if(pw.length<6){$('#err').textContent='Password needs at least 6 characters.';return}S.scr='ob';S.step=0}
+else if(a==='pick')S.a[OB[S.step].k]=v;
+else if(a==='obnext'){if(S.step<OB.length-1)S.step++;else S.scr='plan'}
+else if(a==='obback'){if(S.step>0)S.step--;else S.scr='intro'}
+else if(a==='start'){S.scr='detail'}
+else if(a==='tab'){S.tab=v;S.compose=false}
+else if(a==='energy'){S.energy=v;S.away=false}
+else if(a==='lab')S.lab=v;
+else if(a==='away'){S.away=true;S.energy=null;S.tab='home'}
+else if(a==='begin'){S.away=false;S.scr='active';S.ex=0;S.dur=dur();S.sec=S.dur;S.paused=false;S.cheer=true;setTimeout(()=>{S.cheer=false;if(S.scr==='active')render()},1500);tick()}
+else if(a==='pause')S.paused=!S.paused;
+else if(a==='skip')return next();
+else if(a==='finish'){if(lvl(S.xp)>lvl(S.xp-50)){S.scr='levelup';S.cf=true}else{S.scr='app';S.tab='home'}}
+else if(a==='join'){S.joined=true;render();return toast('Joined! Your workouts now count.')}
+else if(a==='compose')S.compose=!S.compose;
+else if(a==='publish'){const t=$('#pt').value.trim();if(!t)return toast('Write something first.');S.posts.unshift({u:'You',t,k:'e'});S.compose=false;S.xp+=0;render();return toast('Published in this prototype only.')}
+else if(a==='rm'){S.rm=b.checked}else if(a==='fs'){S.fast=b.checked}else if(a==='pub'){S.pub=b.checked}else if(a==='tabgo'){S.scr='app';S.tab=v}else if(a==='meal'){S.meal=+v;S.scr='meal'}else if(a==='lvl'){S.scr='levelup';S.cf=true}
+else if(a==='reset'){if(!/^\S+@\S+\.\S+$/.test($('#re').value)){$('#rerr').textContent='Enter a valid email like you@school.edu.';return}S.sent=true}
+else if(a==='invite'){const e=$('#fe').value.trim();if(!/^\S+@\S+\.\S+$/.test(e)){$('#ferr').textContent='Enter a valid email.';return}S.inv.push(e)}
+else if(a==='toast')return toast(v);
+else if(a==='modal')S.modal=1;else if(a==='modal0')S.modal=null;
+else if(a==='signout'){S.modal=null;S.scr='welcome';S.tab='home'}
+render()});
+function board(){const a=$('#app');a.className='rm';a.style.cssText='max-width:none;width:auto;height:auto;overflow:visible;display:block';document.body.style.cssText='display:block;height:auto';document.documentElement.style.height='auto';
+const A={goal:'Get stronger',time:'20 minutes',lvl:'Beginner',bar:'Busy schedule'},H={scr:'app',tab:'home',a:A},
+F=[['01 Welcome',{scr:'welcome'}],['02 Intro and Sign-up',{scr:'intro'}],['03 Login',{scr:'login'}],['04 Onboarding Goal',{scr:'ob',step:0,a:{goal:'Get stronger'}}],['05 Onboarding Time',{scr:'ob',step:1,a:{time:'20 minutes'}}],['06 Onboarding Level',{scr:'ob',step:2,a:{}}],['07 Onboarding Barrier',{scr:'ob',step:3,a:{bar:'Busy schedule'}}],['08 Plan Summary',{scr:'plan',a:A}],['09 Mission Detail',{scr:'detail',a:A}],['10 Active Workout',{scr:'active',a:A,ex:1,dur:400,sec:312}],['11 Completion',{scr:'done',a:A,done:true,xp:90,dispXp:90}],['12 Home Check-in',H],['13 Home Low Energy',{...H,energy:'low'}],['14 Home Welcome Back',{...H,away:true}],['15 Move and Learn',{...H,tab:'move'}],['16 Progress',{...H,tab:'prog',done:true}],['17 Community',{...H,tab:'comm',joined:true}],['18 Profile',{...H,tab:'prof'}],['19 Reset Password',{scr:'reset'}],['20 Reset Sent',{scr:'reset',sent:true}],['21 Leaderboard',{scr:'lead',a:A,cp:5,done:true}],['22 Friends',{scr:'friends',a:A,inv:['alex@school.edu']}],['23 Nutrition Guide',{scr:'nut',a:A}],['24 Meal Idea',{scr:'meal',meal:1,a:A}],['25 Level-up',{scr:'levelup',a:A,xp:120}]],
+keep={...S};let h='';F.forEach(([n,o],i)=>{Object.assign(S,keep,{energy:null,away:false,done:false,joined:false,cheer:false,paused:false,compose:false,lab:'idle',modal:null,sent:false,meal:0,inv:[]},o);h+=`<div class="cell"><div class="fl">${n}</div><section class="frame" id="frame-${i+1}" data-name="${n}">${view().replace(/data-slot="m"/g,'data-slot="b'+i+'"')}</section></div>`});Object.assign(S,keep);a.innerHTML=`<div class="board">${h}</div>`;mountBears()}
+try{const j=JSON.parse(localStorage.getItem('bm')||'null');if(j){Object.assign(S,j);S.dispXp=S.xp;if(OB.every(o=>S.a[o.k])){S.scr='app';S.away=true}}}catch(e){}
+location.hash==='#board'?board():render();
+</script></body></html>
